@@ -203,24 +203,7 @@ jyousho-official-site/
 → このサイトは `https://jyousho-official.github.io/` の中の **`/jyousho-official-site/` という一区画**に置かれているためです。この設定は `astro.config.mjs` の `base: '/jyousho-official-site/'` で決まっています。
 
 **Q. 独自ドメイン（例: `jyousho.com`）を使いたくなったら？**
-→ ドメインを買うと、URL が `https://jyousho-official.github.io/jyousho-official-site/` から
-**`https://jyousho.com/`**（ルート直下）に変わります。手順は次の通り:
-
-1. **ドメインを購入**（お名前.com / Cloudflare Registrar など。`.com` で年1,500円前後）。
-   ⚠️ ドメインは**毎年更新料が必要**。止めると他人に取られるので、更新を誰が払い続けるか引き継ぐこと。
-2. **DNS設定**（買ったドメインの管理画面）。GitHub Pages 向けに以下を登録:
-   - apex（`jyousho.com`）を使うなら **A レコード**で GitHub の IP を4つ登録
-   - `www.jyousho.com` を使うなら **CNAME** を `jyousho-official.github.io` に向ける
-   - （最新の登録先IP/値は GitHub 公式ドキュメント「Managing a custom domain」を参照）
-3. **GitHub側**: リポジトリ Settings → Pages → **Custom domain** に `jyousho.com` を入力
-   （自動で `public/CNAME` 相当の設定が作られる）。**Enforce HTTPS** にチェック（無料でSSL化）。
-4. **`astro.config.mjs` を修正**:
-   ```js
-   site: 'https://jyousho.com',
-   // base: '/jyousho-official-site/',  ← この行を削除（ルート配信になるので不要）
-   ```
-   これで画像やリンクのパスから `/jyousho-official-site/` を外せます（`<img src="/logo.png">` でOK）。
-5. `main` に反映すれば新ドメインで公開される（DNSの反映に最大で数時間かかることあり）。
+→ ドメインを取得後、(1) GitHub の Settings → Pages でカスタムドメインを設定し、(2) `astro.config.mjs` の `site` を新ドメインに変更、`base` の行を削除します。これで URL がルート直下（`https://jyousho.com/`）になり、`/jyousho-official-site/` が不要になります。具体的な DNS 設定は購入したレジストラ（Cloudflare Registrar など）の画面で行います。
 
 ---
 
