@@ -1,17 +1,43 @@
 ---
-
+const sections = [
+  { title: '活動内容', body: 'ここに活動の説明を書く' },
+  { title: 'メンバー', body: '人数・募集状況など' },
+  { title: 'アクセス', body: '部室の場所や連絡先など' },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>サークル名</title>
+  </head>
+  <body>
+    <header>
+      <h1>サークル名</h1>
+      <p>キャッチコピーをここに</p>
+    </header>
+
+    <main>
+      {sections.map((s) => (
+        <section>
+          <h2>{s.title}</h2>
+          <p>{s.body}</p>
+        </section>
+      ))}
+    </main>
+
+    <footer><small>© 2026 サークル名</small></footer>
+
+    <style>
+      body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.7; }
+      header { padding: 4rem 1.5rem; text-align: center; background: #1e293b; color: #fff; }
+      header h1 { margin: 0 0 .5rem; font-size: 2rem; }
+      main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+      section { margin-bottom: 2rem; }
+      h2 { border-left: 4px solid #1e293b; padding-left: .6rem; }
+      footer { text-align: center; padding: 2rem; color: #64748b; }
+    </style>
+  </body>
 </html>
