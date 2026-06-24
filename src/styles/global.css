@@ -1,0 +1,42 @@
+:root {
+    --bg: #faf9f7;
+    --text: #2b2b2b;
+    --accent: #3b6ea5;
+    --muted: #777;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Hiragino Sans",
+        "Noto Sans JP", sans-serif;
+    line-height: 1.8;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+h1 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 0.3rem;
+}
+
+a {
+    color: var(--accent);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+li span {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
