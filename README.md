@@ -1,58 +1,30 @@
-# jyousho-official-site — サークルサイト 取扱説明書
+# jyousho-official-site
 
-情報処理研究会の公式サイトです。**[Astro](https://astro.build) で作り、Cloudflare Pages で無料公開**しています。
-この README は、サイトを引き継いで運用する後任者向けの取説です。プログラミングが初めてでも、この通りに進めれば更新・公開できます。
+情報処理研究会の活動ブログです。Astro で Markdown 記事を静的 HTML に変換し、Cloudflare Workers の静的アセット配信で公開しています。
 
-- **公開 URL（暫定）**: https://jyousho-official-site.pages.dev/
-  （独自ドメインを取得したらそのURLに変わります。実際のURLは Cloudflare のダッシュボードで確認できます）
-- **ソースコード**: https://github.com/jyousho-official/jyousho-official-site
+- 公開 URL: https://jyousho-official-site.pi09158ku.workers.dev/
+- ソースコード: https://github.com/jyousho-official/jyousho-official-site
+- Node.js: 22.12 以上
 
----
-
-## 1. 仕組み（まず全体像）
+## 現在の構成
 
 ```
-develop ブランチで編集・確認        ← 普段の作業はここ
+src/content/blog/*.md        記事本文
         │
         ▼
-完成したら main ブランチに反映（push）
+src/pages/index.astro        記事一覧ページを生成
+src/pages/blog/[...slug].astro  記事ページを生成
         │
         ▼
-Cloudflare Pages が自動でビルド & 公開   ← ここは全自動。何もしなくてよい
+npm run build                dist/ に静的ファイルを出力
         │
         ▼
-公開URLが更新される（数分後）
+Cloudflare Workers           dist/ を公開
 ```
 
-ポイントは2つ:
+トップページ `/` は記事一覧です。記事ファイルを `src/content/blog/` に追加すると、ビルド時に `/blog/記事ファイル名/` のページが作られます。
 
-1. **普段の作業は `develop` ブランチでやる**（→「5. ブランチの使い方」）。
-2. **`main` ブランチに push したものが、Cloudflare Pages によって自動で本番サイトに公開される**。
-   つまり `main` は「公開してOKな完成版だけ」を置く場所です。公開作業を手でやる必要はありません。
-
-> 📌 公開を実行しているのは **Cloudflare Pages** です。GitHub リポジトリと連携していて、
-> `main` への push を検知すると、Cloudflare 側で自動的に `npm run build` → 公開まで行います。
-
----
-
-## 2. 最初の準備（一度だけ）
-
-引き継いだ人が自分のパソコンで初めて作業するときの手順です。
-
-### 2-1. 必要なソフト
-
-| ソフト | 用途 | 入手先 |
-| :-- | :-- | :-- |
-| **Node.js（22.12 以上）** | サイトを作るのに必要 | https://nodejs.org/ |
-| **Git** | コードの管理・アップロード | https://git-scm.com/ |
-| エディタ（VS Code 推奨） | 編集用 | https://code.visualstudio.com/ |
-
-> ⚠️ Node.js は **22.12 以上**が必須です（古いとビルドが失敗します）。
-> バージョン確認: ターミナルで `node --version`
-
-### 2-2. プロジェクトを自分のPCに持ってくる
-
-ターミナル（コマンドプロンプト / PowerShell / Mac のターミナル）で:
+## 初回セットアップ
 
 ```sh
 git clone https://github.com/jyousho-official/jyousho-official-site.git
@@ -60,199 +32,220 @@ cd jyousho-official-site
 npm install
 ```
 
-`npm install` は必要な部品をダウンロードする作業です（初回のみ時間がかかります）。
+Node.js は 22.12 以上を使ってください。
 
----
-
-## 3. 内容を編集する
-
-### 3-1. 編集するファイル
-
-サイトの各ページは **`src/pages/` フォルダ**の中にあります。
-
-| ファイル | 対応するページ |
-| :-- | :-- |
-| `src/pages/index.astro` | トップページ |
-| `src/pages/group/cg.astro` ほか | 各班（CG・音楽・プログラミング・イラスト・動画）のページ |
-
-トップページの文章を変えるなら `src/pages/index.astro` の**上半分**を書き換えます:
-
-```js
-const sections = [
-  { title: "活動内容", body: "ここに活動の説明を書く" },   // ← body を書き換える
-  { title: "メンバー", body: "人数・募集状況など" },
-  { title: "アクセス", body: "部室の場所や連絡先など" },
-  { title: "班", body: "班ごとの実績や成果物など" },
-];
+```sh
+node --version
 ```
 
-- ファイルの**上半分**（`const sections = [...]`）= 各セクションの**文章**
-- ファイルの**下半分**（`<style>` の中）= **見た目（色・文字サイズなど）**
-
-サークル名やタイトルは `<h1>...</h1>` や `<title>...</title>` の部分を直します。
-
-### 3-2. 画像を追加したいとき
-
-画像ファイルは **`public/`** フォルダに入れます。
-`public/logo.png` を置いたら、`.astro` の中で `<img src="/logo.png" />` のように**先頭スラッシュ**で呼び出せます。
-
-### 3-3. ページを増やしたいとき
-
-`src/pages/` の中にファイルを作ると、それがそのままページの URL になります。
-
-| ファイル | できる URL |
-| :-- | :-- |
-| `src/pages/index.astro` | `/`（トップ） |
-| `src/pages/about.astro` | `/about/` |
-| `src/pages/group/cg.astro` | `/group/cg/` |
-
----
-
-## 4. 編集中の見た目を確認する（プレビュー）
-
-公開する前に、自分のPCで見た目を確認できます。
+## ローカル確認
 
 ```sh
 npm run dev
 ```
 
-実行すると `http://localhost:4321/` が表示されます。
-ブラウザで開くと、ファイルを保存するたびに自動で反映されます。
-止めるときはターミナルで `Ctrl + C`。
+表示された `http://localhost:4321/` をブラウザで開きます。ファイルを保存すると自動で反映されます。止めるときは `Ctrl + C` です。
 
----
-
-## 5. ブランチの使い方（重要なルール）
-
-> 🚨 **作業するときは必ず `develop` ブランチで。`main` は最後に公開するときだけ触る。**
-
-`main` に push した瞬間に Cloudflare Pages が本番サイトを作り直すので、作りかけのものを直接 `main` に入れると、未完成のサイトが公開されてしまいます。
-そこで、**普段の編集は `develop` ブランチ**で行い、**完成して確認できたものだけを `main` に移して公開**します。
-
-### 普段の作業の流れ
+公開前に本番用ビルドが通るか確認する場合:
 
 ```sh
-# ① develop ブランチに移動して、最新を取り込む
+npm run build
+```
+
+ビルド結果をローカルで確認する場合:
+
+```sh
+npm run preview
+```
+
+## 記事の追加
+
+記事は `src/content/blog/` に Markdown ファイルとして追加します。
+
+例: `src/content/blog/2026-07-event-report.md`
+
+```md
+---
+title: "イベント準備レポート"
+date: 2026-07-01
+author: "情報処理研究会"
+heroImage: ""
+---
+
+ここに本文を書きます。
+
+## 見出し
+
+- 箇条書き
+- **太字**
+- [リンク](https://example.com)
+```
+
+ファイル名が URL になります。この例なら `/blog/2026-07-event-report/` です。
+
+必須の frontmatter は次の 3 つです。
+
+| 項目 | 内容 |
+| :-- | :-- |
+| `title` | 記事タイトル |
+| `date` | 日付。`YYYY-MM-DD` 形式 |
+| `author` | 著者名 |
+
+`heroImage` は現在のレイアウトでは表示に使っていませんが、将来の拡張用に残しています。
+
+## 既存記事の編集
+
+現在の記事:
+
+- `src/content/blog/2026-06-bunkasai.md`
+
+記事本文は `---` で囲まれた設定ブロックの下に書きます。
+
+```md
+---
+title: "文化祭2026 準備レポート"
+date: 2026-06-24
+author: "わたりく"
+heroImage: ""
+---
+
+ここから下が本文です。
+```
+
+## 画面を編集する場所
+
+| ファイル | 役割 |
+| :-- | :-- |
+| `src/pages/index.astro` | トップページの記事一覧 |
+| `src/pages/blog/[...slug].astro` | 記事 URL の生成 |
+| `src/layouts/BlogLayout.astro` | 記事ページの HTML 構造 |
+| `src/styles/global.css` | 全体の見た目 |
+| `src/content.config.ts` | 記事データの定義 |
+
+## 公開
+
+このリポジトリは `wrangler.jsonc` で Cloudflare Workers の静的アセット配信を設定しています。
+
+```jsonc
+{
+  "name": "jyousho-official-site",
+  "compatibility_date": "2026-06-18",
+  "assets": {
+    "directory": "./dist"
+  }
+}
+```
+
+公開する前に必ずビルドを確認します。
+
+```sh
+npm run build
+```
+
+Cloudflare 側で GitHub 連携を使っている場合は、Cloudflare ダッシュボードの当プロジェクトの Deployments で成功・失敗を確認してください。
+
+手元から直接デプロイする場合は、Cloudflare にログイン済みの状態で次を実行します。
+
+```sh
+npm run build
+npx wrangler deploy
+```
+
+公開後は次を確認します。
+
+- https://jyousho-official-site.pi09158ku.workers.dev/
+- https://jyousho-official-site.pi09158ku.workers.dev/blog/2026-06-bunkasai/
+
+## ブランチ運用
+
+通常作業は `develop` で行い、公開してよい状態になったら `main` に反映します。
+
+```sh
 git checkout develop
 git pull
 
-# ② 編集する（src/pages/index.astro など）
-#    → npm run dev でプレビューしながら作業
+# 編集して確認
+npm run build
 
-# ③ できたところで develop に保存（こまめにやってOK）
 git add .
-git commit -m "活動内容を更新"
-git push                      # develop に push される（まだ本番公開はされない）
+git commit -m "記事を更新"
+git push
 ```
 
-この段階では `develop` に上がるだけで、**本番サイトはまだ変わりません**（安心して作業できる）。
-
-> 💡 Cloudflare Pages は `develop` への push に対しても「プレビュー用URL」を自動で発行します。
-> 本番URLとは別物なので、ここで見た目を最終確認してから main に進むと安心です。
-
-### 完成したら：main に反映して公開
-
-確認が終わって「公開してOK」となったら、`main` に取り込みます。
+`main` に反映する例:
 
 ```sh
-git checkout main             # main に移動
-git pull                      # 念のため最新化
-git merge develop             # develop の内容を main に取り込む
-git push                      # ★ ここで Cloudflare Pages が本番サイトを更新する
-git checkout develop          # 作業用ブランチに戻しておく
+git checkout main
+git pull
+git merge develop
+git push
+git checkout develop
 ```
 
-`main` に push したあと、Cloudflare Pages が自動でサイトを作り直します。
-**数分待つと**公開URLに反映されます。
+実際に `main` への push で自動公開されるかどうかは、Cloudflare 側の連携設定に依存します。公開状況は Cloudflare ダッシュボードの Deployments で確認してください。
 
-### 進み具合を見る
-[Cloudflare ダッシュボード](https://dash.cloudflare.com/) → Workers & Pages → 当プロジェクト → **Deployments** で進行状況とログが見られます。
-- 🟡 Building / Deploying = 作業中
-- ✅ Success = 公開成功
-- ❌ Failed = 失敗（→「8. よくある質問」へ）
+## コマンド早見表
 
----
-
-## 6. コマンド早見表
-
-すべてプロジェクトのフォルダ内（`jyousho-official-site`）で実行します。
-
-| コマンド | 何をするか |
+| コマンド | 内容 |
 | :-- | :-- |
-| `npm install` | 必要な部品を入れる（最初の1回） |
-| `npm run dev` | PCでプレビュー（`localhost:4321`） |
-| `npm run build` | 公開用ファイルを作る（確認用。普段は不要） |
-| `npm run preview` | build した結果をプレビュー |
+| `npm install` | 依存関係をインストール |
+| `npm run dev` | ローカル開発サーバーを起動 |
+| `npm run build` | `dist/` に公開用ファイルを生成 |
+| `npm run preview` | ビルド結果をローカル確認 |
+| `npx wrangler deploy` | Cloudflare Workers に公開 |
 
----
-
-## 7. ファイル構成
+## ファイル構成
 
 ```
 jyousho-official-site/
-├── public/              静的ファイル（画像・favicon など）
+├── public/
+│   ├── favicon.ico
 │   └── favicon.svg
 ├── src/
-│   └── pages/
-│       ├── index.astro  ★ トップページ（普段はここを編集）
-│       └── group/       各班のページ
-├── astro.config.mjs     サイトのURL設定（基本さわらない）
-├── wrangler.jsonc       Cloudflare Pages 用の設定（基本さわらない）
-├── package.json         プロジェクトの設定・依存関係
-└── README.md            この取説
+│   ├── content/
+│   │   └── blog/
+│   │       └── 2026-06-bunkasai.md
+│   ├── layouts/
+│   │   └── BlogLayout.astro
+│   ├── pages/
+│   │   ├── blog/
+│   │   │   └── [...slug].astro
+│   │   └── index.astro
+│   ├── styles/
+│   │   └── global.css
+│   └── content.config.ts
+├── astro.config.mjs
+├── package.json
+├── wrangler.jsonc
+└── README.md
 ```
 
----
+## トラブル対応
 
-## 8. よくある質問・トラブル対処
+**公開 URL が開けない**
 
-**Q. push したのにサイトが変わらない**
-→ 反映に数分かかります。Cloudflare の Deployments が ✅ Success になってからブラウザを更新（キャッシュ削除: `Ctrl + Shift + R`）。
+Cloudflare ダッシュボードでプロジェクト名と公開 URL を確認してください。現在確認できている URL は `https://jyousho-official-site.pi09158ku.workers.dev/` です。
 
-**Q. Cloudflare のデプロイが ❌ Failed になった**
-→ Deployments で失敗したものを開くとビルドログが見られます。多くは Node.js のバージョン違い（22.12 以上が必要）か、`.astro` ファイルの書き間違い（タグの閉じ忘れなど）です。
-　Cloudflare 側の Node バージョンは、プロジェクトの Settings → 環境変数で `NODE_VERSION` を `22` 以上に設定しておくと安全です。
+**`npm run build` が失敗する**
 
-**Q. 画像やリンクのパスはどう書く？**
-→ このサイトはドメイン直下（ルート）で公開されているので、先頭スラッシュ始まりで書きます。
-　例: 画像 `<img src="/logo.png" />`、リンク `<a href="/group/cg">`。
+Node.js のバージョンを確認してください。`package.json` では `>=22.12.0` を要求しています。Markdown の frontmatter に `title`、`date`、`author` がない場合も失敗します。
 
-**Q. 独自ドメイン（例: `jyousho.com`）を使いたくなったら？**
-→ Cloudflare Registrar でドメインを買った場合、Cloudflare Pages との連携がスムーズです。
-　手順: Cloudflare ダッシュボード → 当プロジェクト → **Custom domains** からドメインを追加するだけ。
-　DNS は Cloudflare 内で自動設定され、HTTPS も自動。サイト側のコード変更はほぼ不要ですが、
-　`astro.config.mjs` の `site` を新ドメイン（例: `https://jyousho.com`）に直しておくと正確です。
+**記事を追加したのに一覧に出ない**
 
----
+ファイルが `src/content/blog/` にあるか、拡張子が `.md` か、frontmatter が正しいかを確認してください。
 
-## 9. 引き継ぎメモ
+**URL が想定と違う**
 
-- このサイトは **GitHub Organization（組織）`jyousho-official`** が所有するリポジトリ
-  `jyousho-official-site` 上にあります。個人アカウントではなく組織が持っているので、
-  特定の人が卒業・退会してもサイトは残ります。
-- **管理者の代替わり**は、組織の `People` タブで次期管理者を **Owner** ロールにするだけで完結します。
-  一般部員は **Member** のまま追加すればOKです。
-  - 前任の管理者は、引き継ぎ後に自分の Owner 権限を外しても構いません（他に Owner がいる場合）。
-### Cloudflare アカウントの引き継ぎ（重要）
+記事 URL は Markdown のファイル名で決まります。`src/content/blog/sample.md` は `/blog/sample/` になります。
 
-**公開は Cloudflare Pages** が担当しています（GitHub 連携・本番ブランチは `main`）。
-独自ドメインも Cloudflare Registrar で取得・管理する方針なので、**Cloudflare アカウントはサイトの生命線**です。
-代々続けられるよう、次のルールで管理・引き継ぎます。
+## 引き継ぎメモ
 
-- 🔑 **Cloudflare アカウントは「サークル共用 Gmail」に紐づける**（個人の Gmail で作らない）。
-  - GitHub Organization と同じく「サークルの器」に1個まとめる発想。Pages もドメインも全部このアカウント配下に集約する。
-  - ⚠️ ドメインを買うときも**必ずこのサークル共用アカウントで購入**すること。Registrar はアカウントに紐づき、後から別アカウントへ移すのは非常に面倒。
-- 🔐 **ログイン情報の引き継ぎ**:
-  - アカウントのメール（サークル共用 Gmail）・パスワード・**2FAのリカバリーコード**を、代々の管理者がアクセスできる場所（部の引き継ぎ資料／パスワードマネージャの共有）に保管する。
-  - 2FA（2段階認証）は必ず有効化する。退任時はパスワードを変更しておくと安全。
-- 💴 **ドメインの年間更新料**:
-  - 独自ドメインは**毎年更新料が必要**。止めると失効して他人に取られる。
-  - 「誰が・どの支払い方法で払い続けるか」（部費／顧問経由 など）を毎年の引き継ぎ事項にし、更新忘れによる失効を防ぐ。
+- GitHub リポジトリは `jyousho-official/jyousho-official-site` です。
+- Cloudflare 側の公開 URL は `workers.dev` の URL を使っています。
+- Cloudflare のアカウント、2FA、リカバリーコード、支払い情報は個人に依存しない形で引き継いでください。
+- 独自ドメインを取得した場合は、Cloudflare 側のルート設定と `astro.config.mjs` の `site` を新しい URL に合わせてください。
 
-> 📌 メモ: 初期はテストのため個人アカウントで Pages を作っていたが、本番はサークル共用アカウントに移行する方針。
-> 本番運用・ドメイン購入を始める前にアカウントを確定させること（後からの移行は手間がかかるため）。
+参考:
 
----
-
-困ったら [Astro 公式ドキュメント](https://docs.astro.build)（日本語あり）や
-[Cloudflare Pages のドキュメント](https://developers.cloudflare.com/pages/)も参考になります。
+- Astro Docs: https://docs.astro.build/
+- Cloudflare Workers Static Assets: https://developers.cloudflare.com/workers/static-assets/
