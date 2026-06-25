@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 interface Props { work: CollectionEntry<'works'>; }
 const { work } = Astro.props;
 const { Content } = await render(work);
+const teamNames = work.data.team.map((team) => teamLabels[team]).join(' / ');
 ---
 
 <ContentLayout
@@ -25,7 +26,7 @@ const { Content } = await render(work);
   image={work.data.image}
 >
   <div class="work-detail-summary">
-    <p><Icon name="folder" size={20} /><strong>所属班:</strong> {teamLabels[work.data.team]}</p>
+    <p><Icon name="folder" size={20} /><strong>所属班:</strong> {teamNames}</p>
     {work.data.tags.length > 0 && <div class="tag-list">{work.data.tags.map((tag) => <span>{tag}</span>)}</div>}
   </div>
   <Content />

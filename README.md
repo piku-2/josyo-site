@@ -31,27 +31,6 @@ npm run dev
 npm run build
 ```
 
-## 制作記録の追加
-
-`src/content/blog/` に Markdown ファイルを追加します。ファイル名が URL になります。
-
-例: `src/content/blog/2026-07-event-report.md`
-
-```md
----
-title: "イベント準備レポート"
-description: "記事一覧に表示する短い説明"
-publishedAt: 2026-07-01
-team: programming
-author: "情報処理研究会"
-draft: false
----
-
-本文を書きます。
-```
-
-下書きのひな形は `src/content/blog/_template.md` にあります。
-
 ## 作品の追加
 
 `src/content/works/` に Markdown ファイルを追加します。ファイル名が URL になります。
@@ -63,7 +42,8 @@ draft: false
 title: "作品タイトル"
 description: "作品一覧に表示する短い説明"
 publishedAt: 2026-07-01
-team: programming
+team:
+  - programming
 creator: "制作者名またはチーム名"
 image: "/images/works/my-game.webp"
 imageAlt: "作品のスクリーンショット"
@@ -79,7 +59,16 @@ draft: false
 
 下書きのひな形は `src/content/works/_template.md` にあります。
 
-`team` は `programming`、`illustration`、`cg`、`video`、`music` のいずれかです。
+`team` は `programming`、`illustration`、`cg`、`video`、`music` から選びます。複数班の混合作品は複数行で書けます。
+
+```md
+team:
+  - programming
+  - illustration
+  - video
+```
+
+1つの班だけの場合は、短く `team: programming` と書いても大丈夫です。
 
 `featured` は作品一覧ページの先頭に大きく表示するかどうかです。通常の作品は `featured: false` のままで大丈夫です。特に見せたい作品だけ `featured: true` にしてください。複数の作品を `true` にした場合は、新しい日付の作品が優先されます。
 
