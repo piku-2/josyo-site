@@ -3,6 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const team = z.enum(['programming', 'illustration', 'cg', 'video', 'music']);
+const teams = z.union([team, z.array(team).min(1)]).transform((value) => Array.isArray(value) ? value : [value]);
 
 const works = defineCollection({
     loader: glob({ pattern: '**/*.md', base: './src/content/works' }),
@@ -10,7 +11,7 @@ const works = defineCollection({
         title: z.string(),
         description: z.string(),
         publishedAt: z.coerce.date(),
-        team,
+        team: teams,
         creator: z.string().default('情報処理研究会'),
         image: z.string().optional(),
         imageAlt: z.string().optional(),

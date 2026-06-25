@@ -6,8 +6,6 @@ import WorkCard from '../../components/WorkCard.astro';
 
 const works = (await getCollection('works', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
-const featured = works.find((work) => work.data.featured) ?? works[0];
-const rest = featured ? works.filter((work) => work.id !== featured.id) : works;
 ---
 
 <BaseLayout title="作品集" theme="works">
@@ -16,7 +14,7 @@ const rest = featured ? works.filter((work) => work.id !== featured.id) : works;
       <div>
         <p class="eyebrow"><span>03</span> WORKS</p>
         <h1>作品集</h1>
-        <p class="page-intro">私たちが制作したプログラム、イラスト、動画、音楽の作品を紹介します。</p>
+        <p class="page-intro">私たちが制作したプログラム、イラスト、CG、動画、音楽の作品を紹介します。</p>
       </div>
       <AbstractGraphic />
     </div>
@@ -32,21 +30,24 @@ const rest = featured ? works.filter((work) => work.id !== featured.id) : works;
         <button class="filter-button" type="button" data-filter="video">動画</button>
         <button class="filter-button" type="button" data-filter="music">音楽</button>
       </div>
-      <span class="sort-label">新しい順</span>
+      <span class="sort-label" id="result-count">{works.length}件表示</span>
     </div>
 
-    {featured ? <div class="featured-work"><WorkCard work={featured} featured /></div> : <p class="empty-state">公開中の作品はまだありません。準備が整った作品から掲載します。</p>}
-    <div class="work-grid catalog-grid" id="work-grid">
-      {rest.map((work) => <WorkCard work={work} />)}
-    </div>
+    {works.length > 0 ? (
+      <div class="work-grid catalog-grid" id="work-grid">
+        {works.map((work) => <WorkCard work={work} />)}
+      </div>
+    ) : (
+      <p class="empty-state">公開中の作品はまだありません。準備が整った作品から掲載します。</p>
+    )}
     <p class="filter-empty" hidden>該当する作品はまだありません。</p>
   </section>
 
   <script>
     const buttons = Array.from(document.querySelectorAll('.filter-button'));
     const cards = Array.from(document.querySelectorAll('#work-grid .work-card'));
-    const featured = document.querySelector('.featured-work');
     const empty = document.querySelector('.filter-empty');
+    const resultCount = document.querySelector('#result-count');
 
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
@@ -54,12 +55,13 @@ const rest = featured ? works.filter((work) => work.id !== featured.id) : works;
         buttons.forEach((item) => item.classList.toggle('is-active', item === button));
         let visibleCount = 0;
         cards.forEach((card) => {
-          const show = filter === 'all' || card.getAttribute('data-team') === filter;
+          const teams = card.getAttribute('data-teams')?.split(' ') ?? [];
+          const show = filter === 'all' || teams.includes(filter);
           card.toggleAttribute('hidden', !show);
           if (show) visibleCount += 1;
         });
-        if (featured) featured.toggleAttribute('hidden', filter !== 'all');
         if (empty) empty.toggleAttribute('hidden', visibleCount > 0 || filter === 'all');
+        if (resultCount) resultCount.textContent = `${visibleCount}件表示`;
       });
     });
   </script>

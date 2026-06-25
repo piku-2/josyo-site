@@ -10,9 +10,11 @@ interface Props {
 const { work, featured = false } = Astro.props;
 const date = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(work.data.publishedAt);
 const href = `/works/${work.id}`;
+const teamNames = work.data.team.map((team) => teamLabels[team]).join(' / ');
+const teamFilterValue = work.data.team.join(' ');
 ---
 
-<article class:list={['work-card', { 'work-card-featured': featured }]} data-team={work.data.team}>
+<article class:list={['work-card', { 'work-card-featured': featured }]} data-teams={teamFilterValue}>
   <a class="work-thumb" href={href} aria-label={`${work.data.title}の詳細を見る`}>
     {work.data.image ? <img src={work.data.image} alt={work.data.imageAlt ?? ''} loading="lazy" /> : <img src="/images/placeholder.svg" alt="" loading="lazy" />}
   </a>
@@ -21,7 +23,7 @@ const href = `/works/${work.id}`;
     <h3><a href={href}>{work.data.title}</a></h3>
     <p>{work.data.description}</p>
     <div class="metadata">
-      <span><Icon name="folder" size={17} />{teamLabels[work.data.team]}</span>
+      <span><Icon name="folder" size={17} />{teamNames}</span>
       <span><Icon name="calendar" size={17} />{date}</span>
     </div>
     {featured && work.data.tags.length > 0 && <div class="tag-list">{work.data.tags.map((tag) => <span>{tag}</span>)}</div>}
