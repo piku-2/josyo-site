@@ -17,7 +17,6 @@ tags:
   - Live2D
   - イラスト
   - 動画
-externalUrl: "https://example.com"
 draft: false
 ---
 
