@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AbstractGraphic from "../components/AbstractGraphic.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Icon from "../components/Icon.astro";
+import { teams } from "../data/site";
+---
+
+<BaseLayout title="私たちについて" theme="about">
+  <section class="page-hero">
+    <div class="shell page-hero-grid">
+      <div>
+        <p class="eyebrow"><span>00</span> ABOUT</p>
+        <h1>私たちについて</h1>
+        <p class="page-lead">つくる。試す。公開する。</p>
+        <p class="page-intro">
+          情報処理研究会は、プログラミング・イラスト・動画・音楽の4つの班で活動しています。<br
+          />個人制作と共同制作の両方を大切にし、完成したものを発表できる形まで育てます。
+        </p>
+      </div>
+      <AbstractGraphic />
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading number="01" label="CONCEPT" title="活動方針" />
+    <div class="value-grid">
+      <article class="value-card">
+        <Icon name="pencil" /><div>
+          <h3>つくる</h3><p>
+            アイデアを小さく形にし、作品として完成させることを目指します。
+          </p>
+        </div>
+      </article>
+      <article class="value-card">
+        <Icon name="flask" /><div>
+          <h3>試す</h3><p>新しいツールや表現方法を試し、制作の幅を広げます。</p>
+        </div>
+      </article>
+      <article class="value-card">
+        <Icon name="globe" /><div>
+          <h3>公開する</h3><p>
+            作品ページや文化祭展示を通して成果を発信します。
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="shell">
+      <SectionHeading number="02" label="ACTIVITIES" title="活動内容" />
+      <div class="activity-grid">
+        {
+          teams.map((team) => (
+            <article class="activity-card">
+              <Icon name={team.icon} size={42} />
+              <div>
+                <>
+                  <h3>{team.name}</h3>
+                  <p>{team.description}</p>
+                </>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading number="03" label="HOW WE WORK" title="活動環境" />
+    <div class="environment-grid">
+      <div class="environment-visual"><p>活動の様子は準備中です</p></div>
+      <div class="environment-list">
+        <article>
+          <Icon name="calendar" /><div>
+            <h3>活動日時</h3><p>
+              月曜・木曜の 5 限目(16:20〜17:20)に活動しています。
+            </p>
+          </div>
+        </article>
+        <article>
+          <Icon name="pin" /><div>
+            <h3>活動場所</h3><p>F505(6号館5階)</p>
+          </div>
+        </article>
+        <article>
+          <Icon name="group" /><div>
+            <h3>活動スタイル</h3><p>
+              個人の得意分野を伸ばしながら、班をまたいだ共同制作にも取り組みます。
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <div class="cta-strip">
+      <p>私たちの作品や、文化祭の情報もぜひご覧ください。</p>
+      <div>
+        <a class="button" href="/works">作品を見る ›</a><a
+          class="button button-outline"
+          href="/festival">文化祭ページを見る ›</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Icon from "../../components/Icon.astro";
+import { teams, festival } from "../../data/site";
+---
+
+<BaseLayout title="文化祭" theme="festival">
+  <section class="festival-page-hero shell">
+    <p class="eyebrow"><span>04</span> FESTIVAL</p>
+    <h1>文化祭 <small>{festival.year}</small></h1>
+    <div class="festival-hero-card">
+      <div class="festival-illustration" aria-hidden="true">
+        <span class="festival-building"></span>
+        <span class="festival-tent"></span>
+        <span class="festival-flags"></span>
+        <span class="festival-sparkles"></span>
+      </div>
+      <div class="festival-hero-copy">
+        <h2>つくる、試す、公開する。</h2>
+        <p>
+          文化祭では、情報処理研究会の4つの班が制作したデジタル作品を展示します。準備中の内容は、このページで順次更新します。
+        </p>
+        <dl>
+          <div>
+            <dt><Icon name="calendar" size={24} />開催日</dt><dd>
+              {festival.date}
+            </dd>
+          </div>
+          <div>
+            <dt><Icon name="pin" size={24} />場所</dt><dd>{festival.place}</dd>
+          </div>
+          <div>
+            <dt><Icon name="star" size={24} />展示内容</dt><dd>
+              ゲーム / イラスト / 動画 / 音楽
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading number="05" label="EXHIBITION" title="展示内容" />
+    <div class="festival-team-grid">
+      {
+        teams.map((team, index) => (
+          <article class={`festival-team-card festival-accent-${index + 1}`}>
+            <Icon name={team.icon} size={44} />
+            <h3>{team.name}</h3>
+            <p>{team.activity}</p>
+            <span>展示準備中</span>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section festival-highlight-section">
+    <div class="shell">
+      <SectionHeading number="06" label="HIGHLIGHTS" title="見どころ" />
+      <div class="highlight-grid">
+        <article>
+          <div class="mini-placeholder"></div><div>
+            <h3>Web・アプリ展示</h3><p>
+              プログラミング班が制作したサイトやツールを紹介します。
+            </p>
+          </div>
+        </article>
+        <article>
+          <div class="mini-placeholder"></div><div>
+            <h3>ビジュアル制作</h3><p>
+              イラスト班が手がけた作品や、他班と連携した素材を展示します。
+            </p>
+          </div>
+        </article>
+        <article>
+          <div class="mini-placeholder"></div><div>
+            <h3>映像・音の発表</h3><p>
+              動画班と音楽班による映像作品、BGM、効果音などを公開します。
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell">
+    <SectionHeading number="07" label="ACCESS" title="アクセス・案内" />
+    <div class="access-grid">
+      <article>
+        <Icon name="train" /><h3>アクセス</h3><p>
+          JR中央線「国分寺駅」北口より<br />徒歩約10分。
+        </p>
+      </article>
+      <article>
+        <Icon name="clock" /><h3>開催時間</h3><p>{festival.time}</p>
+      </article>
+      <article><Icon name="map" /><h3>会場</h3><p>{festival.place}</p></article>
+      <article>
+        <Icon name="alert" /><h3>お願い</h3><p>{festival.notice}</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

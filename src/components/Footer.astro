@@ -1,0 +1,17 @@
+---
+import { site } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <a class="brand footer-brand" href="/">
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-sub">{site.shortName}</span>
+    </a>
+    <span class="footer-domain">{site.domain}</span>
+    <nav aria-label="フッターナビゲーション">
+      {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <small>© 2026 {site.name} All Rights Reserved.</small>
+  </div>
+</footer>
