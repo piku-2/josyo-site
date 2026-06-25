@@ -5,15 +5,22 @@ interface Props {
   name: string;
   file: string;
   icon: string;
+  image?: string;
   description: string;
   activity: string;
   detailed?: boolean;
 }
-const { id, name, file, icon, description, activity, detailed = false } = Astro.props;
+const { id, name, file, icon, image, description, activity, detailed = false } = Astro.props;
 ---
 
 <article class:list={['team-card', { 'team-card-detailed': detailed }]} id={id}>
-  <Icon name={icon} size={detailed ? 66 : 42} />
+  {
+    image ? (
+      <img class="team-card-image" src={image} alt="" width={detailed ? 74 : 54} height={detailed ? 74 : 54} loading="lazy" />
+    ) : (
+      <Icon name={icon} size={detailed ? 66 : 42} />
+    )
+  }
   <div class="team-card-copy">
     <h3>{name}</h3>
     <p class="file-label">{file}</p>

@@ -3,6 +3,7 @@ title: "作品タイトル"
 description: "作品一覧に表示する短い説明"
 publishedAt: 2026-06-25
 team: programming
+# team: programming / illustration / cg / video / music
 creator: "制作者名またはチーム名"
 image: "/images/works/example.webp"
 imageAlt: "作品画像の説明"
