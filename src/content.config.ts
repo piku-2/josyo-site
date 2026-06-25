@@ -2,7 +2,7 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const team = z.enum(['programming', 'illustration', 'video', 'music']);
+const team = z.enum(['programming', 'illustration', 'cg', 'video', 'music']);
 
 const works = defineCollection({
     loader: glob({ pattern: '**/*.md', base: './src/content/works' }),

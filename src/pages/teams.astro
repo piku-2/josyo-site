@@ -1,16 +1,8 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AbstractGraphic from '../components/AbstractGraphic.astro';
-import TeamCard from '../components/TeamCard.astro';
-import WorkCard from '../components/WorkCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import Icon from '../components/Icon.astro';
 import { teams } from '../data/site';
-
-const works = (await getCollection('works', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-  .slice(0, 4);
 ---
 
 <BaseLayout title="班紹介" theme="teams">
@@ -19,32 +11,25 @@ const works = (await getCollection('works', ({ data }) => !data.draft))
       <div>
         <p class="eyebrow"><span>02</span> TEAMS</p>
         <h1>班紹介</h1>
-        <p class="page-intro">情報処理研究会には、4つの班があります。</p>
+        <p class="page-intro">情報処理研究会には、5つの班があります。</p>
       </div>
       <AbstractGraphic />
     </div>
   </section>
 
-  <section class="section shell team-detail-section">
-    <div class="team-grid team-grid-detailed">
-      {teams.map((team) => <TeamCard {...team} detailed />)}
-    </div>
-  </section>
-
-  <section class="section section-soft">
-    <div class="shell">
-      <SectionHeading number="03" label="EXAMPLES" title="主な制作例" />
-      {works.length > 0 ? <div class="work-grid home-work-grid">{works.map((work) => <WorkCard work={work} />)}</div> : <p class="empty-state">公開中の作品はまだありません。各班の制作物は順次掲載します。</p>}
-    </div>
-  </section>
-
   <section class="section shell">
-    <SectionHeading number="04" label="DETAILS" title="班ごとの活動内容" />
+    <SectionHeading number="01" label="DETAILS" title="班ごとの活動内容" />
     <div class="team-table-grid">
       {teams.map((team) => (
         <article class="team-table-card">
-          <div><Icon name={team.icon} size={34} /><h3>{team.name}</h3></div>
-          <ul><li>{team.description}</li><li>{team.activity}</li><li>完成したものは作品ページや文化祭展示で発表します。</li></ul>
+          <div class="team-table-heading">
+            <img src={team.image} alt="" width="64" height="64" loading="lazy" />
+            <div>
+              <h3>{team.name}</h3>
+              <p>{team.file}</p>
+            </div>
+          </div>
+          <ul><li>{team.description}</li><li>{team.activity}</li><li>完成したものは作品ページで発表します。</li></ul>
         </article>
       ))}
     </div>
