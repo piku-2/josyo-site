@@ -118,9 +118,10 @@ button { color: inherit; }
 .button-small { min-height: 44px; padding-inline: 19px; font-size: .88rem; }
 
 .hero { border-bottom: 1px solid var(--line); overflow: hidden; }
-.hero-grid { min-height: 600px; display: grid; grid-template-columns: minmax(0, .95fr) minmax(420px, 1.05fr); align-items: center; gap: 40px; }
+.hero-grid { min-height: 600px; display: grid; grid-template-columns: minmax(480px, .86fr) minmax(520px, 1.14fr); align-items: center; gap: 40px; }
 .hero-copy { position: relative; z-index: 2; padding-block: 72px; }
 .hero h1, .page-hero h1, .festival-page-hero > h1 { margin: 0; font-size: clamp(3rem, 6vw, 5.4rem); line-height: 1.09; letter-spacing: 0; }
+.hero h1 { font-size: clamp(3.2rem, 5.2vw, 5.1rem); white-space: nowrap; }
 .hero-lead, .page-lead { margin: 20px 0 22px; color: var(--accent); font-size: clamp(1.55rem, 3vw, 2.25rem); font-weight: 750; letter-spacing: .04em; }
 .hero-description { margin: 0 0 34px; font-size: 1.1rem; }
 
@@ -174,6 +175,14 @@ button { color: inherit; }
 .team-card-detailed .team-card-copy { flex: 1; }
 .team-card-detailed h3 { font-size: 1.35rem; }
 .team-card-detailed p { font-size: .92rem; }
+.home-team-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.home-team-grid .team-card { grid-column: span 2; min-height: 168px; padding: 24px; align-items: start; transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.home-team-grid .team-card:nth-child(4) { grid-column: 2 / span 2; }
+.home-team-grid .team-card:nth-child(5) { grid-column: 4 / span 2; }
+.home-team-grid .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.home-team-grid .team-card-image { width: 58px; height: 58px; }
+.home-team-grid .team-card-copy p:last-child { display: none; }
+.home-team-grid .card-arrow { bottom: 20px; }
 
 .festival-strip-section { padding-top: 58px; }
 .festival-strip { display: grid; grid-template-columns: 235px 1fr 1.35fr; min-height: 190px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line)); border-radius: var(--radius); background: linear-gradient(110deg, color-mix(in srgb, var(--accent-soft) 75%, white), #fff 46%, color-mix(in srgb, var(--accent-2) 10%, white)); }
@@ -323,6 +332,8 @@ button { color: inherit; }
   .abstract-block-a { right: 10px; }
   .abstract-dots { right: 210px; }
   .work-grid, .team-grid, .festival-team-grid, .access-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-team-grid .team-card, .home-team-grid .team-card:nth-child(4), .home-team-grid .team-card:nth-child(5) { grid-column: auto; }
   .festival-strip { grid-template-columns: 190px 1fr; }
   .festival-strip-data { grid-column: 1 / -1; border-top: 1px solid var(--line); }
   .footer-inner { grid-template-columns: auto 1fr auto; }
@@ -331,7 +342,7 @@ button { color: inherit; }
 }
 
 @media (min-width: 1100px) and (min-aspect-ratio: 19 / 9) {
-  .hero-grid { min-height: 520px; grid-template-columns: minmax(0, .9fr) minmax(460px, .95fr); }
+  .hero-grid { min-height: 520px; grid-template-columns: minmax(500px, .78fr) minmax(660px, 1.22fr); }
   .page-hero-grid { min-height: 420px; grid-template-columns: minmax(0, 1fr) minmax(520px, .75fr); }
   .compact-page-hero .page-hero-grid { min-height: 320px; }
   .abstract-graphic { min-height: 420px; }
@@ -346,6 +357,24 @@ button { color: inherit; }
 }
 
 @media (min-width: 1400px) {
+  .hero-grid {
+    width: min(1720px, calc(100% - 64px));
+    grid-template-columns: minmax(520px, .72fr) minmax(780px, 1.28fr);
+  }
+
+  .hero .abstract-graphic {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .hero .abstract-block-a { width: 315px; height: 500px; right: 70px; }
+  .hero .abstract-block-b { width: 185px; height: 430px; right: -24px; }
+  .hero .abstract-line-a { width: 460px; right: 285px; top: 128px; }
+  .hero .abstract-line-b { width: 390px; right: 260px; top: 300px; }
+  .hero .abstract-line-c { width: 360px; right: 20px; bottom: 78px; }
+  .hero .abstract-dots { width: 190px; height: 190px; right: 405px; bottom: 72px; }
+  .hero .abstract-grid { width: 220px; height: 220px; right: 140px; top: 178px; }
+
   .page-hero-grid {
     width: min(1720px, calc(100% - 64px));
     grid-template-columns: minmax(0, .82fr) minmax(620px, 1fr);
@@ -385,6 +414,7 @@ button { color: inherit; }
   .hero-grid, .page-hero-grid { grid-template-columns: 1fr; min-height: auto; }
   .hero-copy { padding-block: 65px 12px; }
   .hero h1, .page-hero h1 { font-size: clamp(2.8rem, 11vw, 4.6rem); }
+  .hero h1 { font-size: clamp(2.55rem, 10.2vw, 4rem); }
   .abstract-graphic { min-height: 340px; }
   .page-hero .abstract-graphic, .compact-page-hero .abstract-graphic { min-height: 300px; }
   .page-hero-grid { padding-top: 60px; }
@@ -408,6 +438,7 @@ button { color: inherit; }
 
 @media (max-width: 800px) and (max-aspect-ratio: 3 / 4) {
   .hero-copy { padding-block: 52px 0; }
+  .hero h1 { font-size: clamp(2.35rem, 9.6vw, 3.55rem); }
   .page-hero-grid { padding-top: 50px; }
   .abstract-graphic { min-height: 260px; }
   .page-hero .abstract-graphic, .compact-page-hero .abstract-graphic { min-height: 245px; }
@@ -429,6 +460,7 @@ button { color: inherit; }
   .brand-sub { font-size: .7rem; }
   .hero-grid { min-height: auto; }
   .hero-copy { padding-top: 54px; }
+  .hero h1 { font-size: clamp(2.15rem, 9.2vw, 3.15rem); }
   .hero-description { font-size: .98rem; }
   .abstract-graphic { min-height: 290px; }
   .abstract-block-a { width: 135px; height: 280px; right: 25px; }
@@ -439,6 +471,11 @@ button { color: inherit; }
   .section-heading { flex-direction: column; }
   .section-heading .button { align-self: stretch; }
   .team-card { min-height: auto; }
+  .home-team-grid { gap: 12px; }
+  .home-team-grid .team-card { min-height: 104px; align-items: center; padding: 18px 52px 18px 18px; }
+  .home-team-grid .team-card-image { width: 50px; height: 50px; }
+  .home-team-grid .team-card-copy p:not(.file-label) { display: none; }
+  .home-team-grid .card-arrow { top: 50%; right: 20px; bottom: auto; transform: translateY(-50%); }
   .filter-bar { align-items: stretch; flex-direction: column; }
   .filter-buttons { display: grid; grid-template-columns: repeat(2, 1fr); }
   .filter-button { padding-inline: 10px; }

@@ -1,15 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import AbstractGraphic from '../components/AbstractGraphic.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import WorkCard from '../components/WorkCard.astro';
-import TeamCard from '../components/TeamCard.astro';
-import Icon from '../components/Icon.astro';
-import { teams, festival } from '../data/site';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AbstractGraphic from "../components/AbstractGraphic.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import WorkCard from "../components/WorkCard.astro";
+import TeamCard from "../components/TeamCard.astro";
+import Icon from "../components/Icon.astro";
+import { teams, festival } from "../data/site";
 
-const works = (await getCollection('works', ({ data }) => !data.draft))
-  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+const works = (await getCollection("works", ({ data }) => !data.draft))
+  .sort(
+    (a, b) =>
+      Number(b.data.featured) - Number(a.data.featured) ||
+      b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+  )
   .slice(0, 4);
 ---
 
@@ -20,28 +24,45 @@ const works = (await getCollection('works', ({ data }) => !data.draft))
         <p class="eyebrow"><span>00</span> HOME</p>
         <h1>情報処理研究会</h1>
         <p class="hero-lead">つくる。試す。公開する。</p>
-        <p class="hero-description">プログラミング、イラスト、動画、音楽。<br />4つの班でデジタル作品を制作しています。</p>
-        <a class="button" href="/works">作品を見る <span aria-hidden="true">›</span></a>
+        <p class="hero-description">
+          プログラミング、イラスト、CG、動画、音楽。<br
+          />5つの班でデジタル作品を制作しています。
+        </p>
+        <a class="button" href="/works"
+          >作品を見る <span aria-hidden="true">›</span></a
+        >
       </div>
       <AbstractGraphic />
     </div>
   </section>
 
   <section class="section shell">
-    <SectionHeading number="01" label="WORKS" title="作品集" actionHref="/works" actionLabel="すべての作品を見る" />
-    {works.length > 0 ? (
-      <div class="work-grid home-work-grid">
-        {works.map((work) => <WorkCard work={work} />)}
-      </div>
-    ) : (
-      <p class="empty-state">公開中の作品はまだありません。制作中の作品は、準備が整い次第掲載します。</p>
-    )}
+    <SectionHeading
+      number="01"
+      label="WORKS"
+      title="作品集"
+      actionHref="/works"
+      actionLabel="すべての作品を見る"
+    />
+    {
+      works.length > 0 ? (
+        <div class="work-grid home-work-grid">
+          {works.map((work) => (
+            <WorkCard work={work} />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">
+          公開中の作品はまだありません。制作中の作品は、準備が整い次第掲載します。
+        </p>
+      )
+    }
   </section>
 
-  <section class="section section-soft">
+  <section class="section section-soft home-team-section">
     <div class="shell">
       <SectionHeading number="02" label="TEAMS" title="班紹介" />
-      <div class="team-grid">
+      <div class="team-grid home-team-grid">
         {teams.map((team) => <TeamCard {...team} />)}
       </div>
     </div>
@@ -58,12 +79,14 @@ const works = (await getCollection('works', ({ data }) => !data.draft))
       </div>
       <div class="festival-strip-copy">
         <h3>文化祭に向けた展示情報を<br />順次公開します</h3>
-        <a class="button" href="/festival">文化祭ページを見る <span aria-hidden="true">›</span></a>
+        <a class="button" href="/festival"
+          >文化祭ページを見る <span aria-hidden="true">›</span></a
+        >
       </div>
       <div class="festival-strip-data">
         <span><Icon name="calendar" />{festival.date}</span>
         <span><Icon name="pin" />{festival.place}</span>
-        <span><Icon name="star" />4班合同展示</span>
+        <span><Icon name="star" />5班合同展示</span>
       </div>
     </div>
   </section>
