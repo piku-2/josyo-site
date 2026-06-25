@@ -21,7 +21,7 @@ import { teams } from '../data/site';
     <SectionHeading number="01" label="DETAILS" title="班ごとの活動内容" />
     <div class="team-table-grid">
       {teams.map((team) => (
-        <article class="team-table-card">
+        <article class="team-table-card" id={team.id}>
           <div class="team-table-heading">
             <img src={team.image} alt="" width="64" height="64" loading="lazy" />
             <div>
