@@ -1,0 +1,35 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { teamLabels } from '../../data/site';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works', ({ data }) => !data.draft);
+  return works.map((work) => ({ params: { slug: work.id }, props: { work } }));
+}
+
+interface Props { work: CollectionEntry<'works'>; }
+const { work } = Astro.props;
+const { Content } = await render(work);
+---
+
+<ContentLayout
+  title={work.data.title}
+  description={work.data.description}
+  publishedAt={work.data.publishedAt}
+  author={work.data.creator}
+  backHref="/works"
+  backLabel="作品集へ戻る"
+  theme="works"
+  image={work.data.image}
+>
+  <div class="work-detail-summary">
+    <p><Icon name="folder" size={20} /><strong>所属班:</strong> {teamLabels[work.data.team]}</p>
+    {work.data.tags.length > 0 && <div class="tag-list">{work.data.tags.map((tag) => <span>{tag}</span>)}</div>}
+  </div>
+  <Content />
+  <div class="article-actions">
+    {work.data.externalUrl && <a class="button" href={work.data.externalUrl} target="_blank" rel="noreferrer">作品を開く ↗</a>}
+  </div>
+</ContentLayout>

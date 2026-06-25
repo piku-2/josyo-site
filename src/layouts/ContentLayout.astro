@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  author: string;
+  backHref: string;
+  backLabel: string;
+  theme?: 'works' | 'article';
+  image?: string;
+}
+const { title, description, publishedAt, updatedAt, author, backHref, backLabel, theme = 'article', image } = Astro.props;
+const formatter = new Intl.DateTimeFormat('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} theme={theme} image={image}>
+  <article class="content-page shell narrow-shell">
+    <a class="back-link" href={backHref}>← {backLabel}</a>
+    <header class="content-header">
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div class="metadata content-meta">
+        <span><Icon name="user" size={18} />{author}</span>
+        <span><Icon name="calendar" size={18} />{formatter.format(publishedAt)}</span>
+        {updatedAt && <span>更新: {formatter.format(updatedAt)}</span>}
+      </div>
+    </header>
+    {image && <img class="content-cover" src={image} alt="" />}
+    <div class="prose"><slot /></div>
+  </article>
+</BaseLayout>

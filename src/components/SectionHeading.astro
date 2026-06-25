@@ -1,0 +1,18 @@
+---
+interface Props {
+  number: string;
+  label: string;
+  title: string;
+  actionHref?: string;
+  actionLabel?: string;
+}
+const { number, label, title, actionHref, actionLabel } = Astro.props;
+---
+
+<div class="section-heading">
+  <div>
+    <p class="eyebrow"><span>{number}</span> {label}</p>
+    <h2>{title}</h2>
+  </div>
+  {actionHref && actionLabel && <a class="button button-outline button-small" href={actionHref}>{actionLabel}<span aria-hidden="true">›</span></a>}
+</div>

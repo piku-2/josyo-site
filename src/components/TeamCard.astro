@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  id: string;
+  name: string;
+  file: string;
+  icon: string;
+  description: string;
+  activity: string;
+  detailed?: boolean;
+}
+const { id, name, file, icon, description, activity, detailed = false } = Astro.props;
+---
+
+<article class:list={['team-card', { 'team-card-detailed': detailed }]} id={id}>
+  <Icon name={icon} size={detailed ? 66 : 42} />
+  <div class="team-card-copy">
+    <h3>{name}</h3>
+    <p class="file-label">{file}</p>
+    <p>{description}</p>
+    <p>{activity}</p>
+  </div>
+  <a href={`/teams#${id}`} class="card-arrow" aria-label={`${name}を見る`}>→</a>
+</article>
