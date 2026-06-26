@@ -8,7 +8,7 @@ team:
   - video
 # team: programming / illustration / cg / video / music
 creator: "渡辺陸斗 / のむさん / けいご / なりた / KAJU"
-image: "/images/works/26.png"
+image: "/images/works/programming/26.png"
 imageAlt: "モデルの元イラスト"
 featured: false
 tags:
