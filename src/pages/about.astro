@@ -14,7 +14,8 @@ import { teams } from "../data/site";
         <h1>私たちについて</h1>
         <p class="page-lead">つくる。試す。公開する。</p>
         <p class="page-intro">
-          情報処理研究会は、プログラミング・イラスト・CG・動画・音楽の5つの班で活動しています。<br
+          情報処理研究会は、プログラミング・イラスト・CG・動画・音楽の5つの班で<span
+            style="white-space: nowrap">活動しています。</span><br
           />個人制作と共同制作の両方を大切にし、完成したものを発表できる形まで育てます。
         </p>
       </div>
@@ -54,7 +55,14 @@ import { teams } from "../data/site";
         {
           teams.map((team) => (
             <article class="activity-card">
-              <img class="activity-card-image" src={team.image} alt="" width="76" height="76" loading="lazy" />
+              <img
+                class="activity-card-image"
+                src={team.image}
+                alt=""
+                width="76"
+                height="76"
+                loading="lazy"
+              />
               <div>
                 <>
                   <h3>{team.name}</h3>

@@ -233,7 +233,7 @@ button { color: inherit; }
 .team-detail-section { padding-top: 28px; }
 .team-grid-detailed { align-items: stretch; }
 .team-table-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 18px; }
-.team-table-card { display: grid; grid-template-columns: minmax(220px, .48fr) minmax(0, 1fr); gap: 25px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.team-table-card { display: grid; grid-template-columns: minmax(220px, .48fr) minmax(0, 1fr); align-items: center; gap: 25px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
 .team-table-heading { display: flex; align-items: center; gap: 14px; min-width: 0; }
 .team-table-heading img { flex: none; width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
 .team-table-card svg { color: var(--accent); }
