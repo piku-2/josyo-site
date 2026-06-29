@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import AbstractGraphic from '../components/AbstractGraphic.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import { teams } from '../data/site';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AbstractGraphic from "../components/AbstractGraphic.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { teams } from "../data/site";
 ---
 
 <BaseLayout title="班紹介" theme="teams">
@@ -11,7 +11,7 @@ import { teams } from '../data/site';
       <div>
         <p class="eyebrow"><span>02</span> TEAMS</p>
         <h1>班紹介</h1>
-        <p class="page-intro">情報処理研究会には、5つの班があります。</p>
+        <p class="page-intro">情報処理研究会には5つの班があります。</p>
       </div>
       <AbstractGraphic />
     </div>
@@ -20,22 +20,41 @@ import { teams } from '../data/site';
   <section class="section shell">
     <SectionHeading number="01" label="DETAILS" title="班ごとの活動内容" />
     <div class="team-table-grid">
-      {teams.map((team) => (
-        <article class="team-table-card" id={team.id}>
-          <div class="team-table-heading">
-            <img src={team.image} alt="" width="64" height="64" loading="lazy" />
-            <div>
-              <h3>{team.name}</h3>
-              <p>{team.file}</p>
+      {
+        teams.map((team) => (
+          <article class="team-table-card" id={team.id}>
+            <div class="team-table-heading">
+              <img
+                src={team.image}
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <div>
+                <h3>{team.name}</h3>
+                <p>{team.file}</p>
+              </div>
             </div>
-          </div>
-          <ul><li>{team.description}</li><li>{team.activity}</li><li>完成したものは作品ページで発表します。</li></ul>
-        </article>
-      ))}
+            <ul>
+              <>
+                <li>{team.description}</li>
+                <li>{team.activity}</li>
+                <li>完成したものは作品ページで発表します。</li>
+              </>
+            </ul>
+          </article>
+        ))
+      }
     </div>
   </section>
 
   <section class="section shell">
-    <div class="cta-strip"><p><strong>私たちの作品をもっと見る</strong><br />各班の作品を作品ページでご覧いただけます。</p><a class="button" href="/works">作品ページを見る ›</a></div>
+    <div class="cta-strip">
+      <p>
+        <strong>私たちの作品をもっと見る</strong><br
+        />各班の作品を作品ページでご覧いただけます。
+      </p><a class="button" href="/works">作品ページを見る ›</a>
+    </div>
   </section>
 </BaseLayout>

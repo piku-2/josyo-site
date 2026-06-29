@@ -426,12 +426,35 @@ button { color: inherit; }
   .mobile-nav { display: block; }
   .header-inner { min-height: 84px; }
   .hero-grid, .page-hero-grid { grid-template-columns: 1fr; min-height: auto; }
-  .hero-copy { padding-block: 65px 12px; }
+  /* Home hero: overlay the copy on top of the graphic so the page stays compact */
+  .hero-grid { grid-template-rows: auto; }
+  .hero .hero-copy, .hero .abstract-graphic { grid-column: 1; grid-row: 1; }
+  .hero .abstract-graphic { align-self: stretch; }
+  .hero .hero-copy {
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+    padding-block: 56px 30px;
+  }
+  .hero .hero-copy .button { margin-top: auto; align-self: flex-start; }
+  /* Sub-page heroes: overlay the copy on top of the graphic too */
+  .page-hero-grid { grid-template-rows: auto; }
+  .page-hero-grid > :first-child, .page-hero .abstract-graphic { grid-column: 1; grid-row: 1; }
+  .page-hero .abstract-graphic { align-self: stretch; }
+  .page-hero-grid > :first-child {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* Compact heroes (works/teams) have short copy: keep the title near the top */
+  .compact-page-hero .page-hero-grid > :first-child { justify-content: flex-start; }
   .hero h1, .page-hero h1 { font-size: clamp(2.8rem, 11vw, 4.6rem); }
   .hero h1 { font-size: clamp(2.55rem, 10.2vw, 4rem); }
   .abstract-graphic { min-height: 340px; }
   .page-hero .abstract-graphic, .compact-page-hero .abstract-graphic { min-height: 300px; }
-  .page-hero-grid { padding-top: 60px; }
+  .page-hero-grid { padding-top: 24px; }
   .section { padding-block: 58px; }
   .section-heading { align-items: start; }
   .work-card-featured { grid-template-columns: 1fr; }
@@ -453,7 +476,7 @@ button { color: inherit; }
 @media (max-width: 800px) and (max-aspect-ratio: 3 / 4) {
   .hero-copy { padding-block: 52px 0; }
   .hero h1 { font-size: clamp(2.35rem, 9.6vw, 3.55rem); }
-  .page-hero-grid { padding-top: 50px; }
+  .page-hero-grid { padding-top: 20px; }
   .abstract-graphic { min-height: 260px; }
   .page-hero .abstract-graphic, .compact-page-hero .abstract-graphic { min-height: 245px; }
   .abstract-block-a { width: 150px; height: 300px; right: 40px; top: 18px; }
@@ -511,7 +534,7 @@ button { color: inherit; }
 
 @media (max-width: 580px) and (min-aspect-ratio: 4 / 3) {
   .header-inner { min-height: 70px; }
-  .page-hero-grid { padding-top: 34px; }
+  .page-hero-grid { padding-top: 16px; }
   .hero-copy { padding-top: 40px; }
   .hero h1, .page-hero h1 { font-size: clamp(2.25rem, 9vw, 3.25rem); }
   .page-intro { margin-top: 14px; font-size: .96rem; }
