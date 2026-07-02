@@ -2,7 +2,7 @@
 
 情報処理研究会の公式サイトです。Astro でトップページ、班紹介、作品集、制作記録、文化祭ページを静的 HTML として生成し、Cloudflare Workers の静的アセット配信で公開します。
 
-- 公開 URL: https://jyousho-official-site.pages.dev/
+- 公開 URL: https://jyousho-official-site.jyousho-6a9.workers.dev/
 - Node.js: 22.12 以上
 
 ## 構成
